@@ -1,4 +1,5 @@
 import { fetchTodos } from "@/api/fetch-todos.ts";
+import { QUERY_KEYS } from "@/lib/constants.ts";
 import { useQuery } from "@tanstack/react-query";
 
 // export const useTodosData = () => {
@@ -23,6 +24,6 @@ import { useQuery } from "@tanstack/react-query";
 // };
 
 export const useTodosData = () => useQuery({
-    queryFn: fetchTodos,
-    queryKey: ["todos"]
+    queryKey: QUERY_KEYS.todo.list,
+    queryFn: fetchTodos
 });

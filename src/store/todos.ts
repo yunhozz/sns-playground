@@ -15,7 +15,8 @@ const useTodosStore = create(
                     setState(state => {
                         state.todos.push({
                             id: new Date().getTime().toString(),
-                            content
+                            content,
+                            isDone: false
                         });
                     });
                 },
