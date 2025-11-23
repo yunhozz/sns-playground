@@ -1,7 +1,7 @@
 import { API_URL } from "@/lib/constants.ts";
 import type { ITodo } from "@/types.ts";
 
-export async function fetchTodos(): Promise<ITodo[]> {
+export const fetchTodos = async (): Promise<ITodo[]> => {
     const response = await fetch(`${API_URL}/todos`);
 
     if (!response.ok) {
@@ -9,4 +9,4 @@ export async function fetchTodos(): Promise<ITodo[]> {
     }
 
     return await response.json();
-}
+};

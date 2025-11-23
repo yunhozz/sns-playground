@@ -1,7 +1,7 @@
 import { API_URL } from "@/lib/constants.ts";
 import type { ITodo } from "@/types.ts";
 
-export async function createTodo(content: string): Promise<ITodo> {
+export const createTodo = async (content: string): Promise<ITodo> => {
     const response = await fetch(`${API_URL}/todos`, {
         method: "post",
         body: JSON.stringify({
@@ -15,4 +15,4 @@ export async function createTodo(content: string): Promise<ITodo> {
     }
 
     return await response.json();
-}
+};
