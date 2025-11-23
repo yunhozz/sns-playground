@@ -14,12 +14,12 @@ const useTodosStore = create(
                 createTodo: (content: string) => {
                     setState(state => {
                         state.todos.push({
-                            id: new Date().getTime(),
+                            id: new Date().getTime().toString(),
                             content
                         });
                     });
                 },
-                deleteTodo: (targetId: number) => {
+                deleteTodo: (targetId: string) => {
                     setState(state => {
                         state.todos = state.todos.filter(todo => todo.id !== targetId);
                     });
