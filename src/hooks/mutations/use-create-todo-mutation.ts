@@ -22,3 +22,11 @@ export const useCreateTodoMutation = () => {
         }
     });
 };
+
+/*
+[캐시 데이터의 수정 방식]
+
+1. 캐시 무효화 -> queryClient.invalidateQueries()
+2. 수정 요청의 응답값 활용 -> onSuccess
+3. 낙관적 업데이트 -> onMutate
+ */

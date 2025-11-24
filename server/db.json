@@ -1,17 +1,17 @@
 {
   "todos": [
     {
-      "id": 1,
+      "id": "1",
       "content": "Todo 1",
       "isDone": true
     },
     {
-      "id": 2,
+      "id": "2",
       "content": "Todo 2",
       "isDone": true
     },
     {
-      "id": 3,
+      "id": "3",
       "content": "Todo 3",
       "isDone": false
     }
