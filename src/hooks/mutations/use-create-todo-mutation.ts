@@ -9,12 +9,15 @@ export const useCreateTodoMutation = () => {
     return useMutation({
         mutationFn: createTodo,
         onSuccess: (newTodo) => {
+            const newTodoId = newTodo.id;
             // refetching 없이 createTodo의 결과(newTodo)를 그대로 받아와서 새로운 데이터로 반환
-            queryClient.setQueryData<ITodo[]>(QUERY_KEYS.todo.list, (prevTodos) => {
-                if (!prevTodos) {
-                    return [newTodo];
+            queryClient.setQueryData<ITodo>(QUERY_KEYS.todo.detail(newTodoId), newTodo);
+
+            queryClient.setQueryData<string[]>(QUERY_KEYS.todo.list, (prevTodoIds) => {
+                if (!prevTodoIds) {
+                    return [newTodoId];
                 }
-                return [...prevTodos, newTodo];
+                return [...prevTodoIds, newTodoId];
             });
         },
         onError: (error) => {

@@ -1,13 +1,20 @@
 import { Button } from "@/components/ui/button.tsx";
 import { useDeleteTodoMutation } from "@/hooks/mutations/use-delete-todo-mutation.ts";
 import { useUpdateTodoMutation } from "@/hooks/mutations/use-update-todo-mutation.ts";
-import type { ITodo } from "@/types.ts";
+import { useTodoDataById } from "@/hooks/queries/use-todo-data-by-id.ts";
 import { Link } from "react-router";
 
-export default ({ id, content, isDone }: ITodo) => {
+export default ({ id }: { id: string }) => {
+    const { data: todo } = useTodoDataById(id, "LIST");
     const { mutate: updateTodo } = useUpdateTodoMutation();
     const { mutate: deleteTodo, isPending: isDeleteTodoPending } = useDeleteTodoMutation();
     // const deleteTodo = useDeleteTodo();
+
+    if (!todo) {
+        throw new Error("Todo Data Undefined");
+    }
+
+    const { content, isDone } = todo;
 
     const onClickCheckBox = () => {
         updateTodo({

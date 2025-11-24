@@ -10,30 +10,33 @@ export const useUpdateTodoMutation = () => {
         mutationFn: updateTodo,
         // 낙관적 업데이트
         onMutate: async (updatedTodo) => {
-            // 해당 key에 대해 캐시 조회 요청을 모두 취소시킴
+            const updatedTodoId = updatedTodo.id;
+
+            // 해당 key에 대해 낙관적 업데이트 이전의 캐시 조회 요청을 모두 취소시킴
             await queryClient.cancelQueries({
-                queryKey: QUERY_KEYS.todo.list
+                queryKey: QUERY_KEYS.todo.detail(updatedTodoId)
             });
 
             // 요청 실패를 방지하기 위해 이전 캐시 데이터를 불러옴
-            const prevTodos = queryClient.getQueryData<ITodo[]>(QUERY_KEYS.todo.list);
+            const prevTodo = queryClient.getQueryData<ITodo>(QUERY_KEYS.todo.detail(updatedTodoId));
 
-            queryClient.setQueryData<ITodo[]>(QUERY_KEYS.todo.list, (prevTodos) => {
-                if (!prevTodos) {
-                    return [];
+            queryClient.setQueryData<ITodo>(QUERY_KEYS.todo.detail(updatedTodoId), (prevTodo) => {
+                if (!prevTodo) {
+                    return;
                 }
-                return prevTodos.map(todo => todo.id === updatedTodo.id
-                    ? { ...todo, ...updatedTodo }
-                    : todo
-                );
+                return {
+                    ...prevTodo,
+                    ...updatedTodo
+                };
             });
 
-            return { prevTodos };
+            return { prevTodo };
         },
         // 업데이트 에러 발생 시 처리
         onError: (error, variables, onMutateResult) => {
-            if (onMutateResult && onMutateResult.prevTodos) {
-                queryClient.setQueryData<ITodo[]>(QUERY_KEYS.todo.list, onMutateResult.prevTodos);
+            const prevTodo = onMutateResult?.prevTodo;
+            if (onMutateResult && prevTodo) {
+                queryClient.setQueryData<ITodo>(QUERY_KEYS.todo.detail(prevTodo.id), prevTodo);
             }
         },
         // 데이터 무결성 검증

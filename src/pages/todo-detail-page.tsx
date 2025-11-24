@@ -3,12 +3,12 @@ import { useParams } from "react-router";
 
 export default () => {
     const params = useParams();
-    const { data, isLoading, error } = useTodoDataById(String(params.id));
+    const { data: todo, isLoading, error } = useTodoDataById(String(params.id), "DETAIL");
 
     if (isLoading) return <div>로딩 중 입니다...</div>;
-    if (error || !data) return <div>오류가 발생했습니다.</div>;
+    if (error || !todo) return <div>오류가 발생했습니다.</div>;
 
     return (
-        <div>{data.content}</div>
+        <div>{todo.content}</div>
     );
 }
