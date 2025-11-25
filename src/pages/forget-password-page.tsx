@@ -1,5 +1,5 @@
 export default () => {
     return (
-        <div>IndexPage</div>
+        <div>ForgetPasswordPage</div>
     );
 }
