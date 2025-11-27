@@ -1,0 +1,21 @@
+import supabase from "@/lib/supabase.ts";
+import type { Session, User, WeakPassword } from "@supabase/supabase-js";
+
+export const signUp = async ({ email, password }: { email: string, password: string }): Promise<{
+    user: User | null,
+    session: Session | null
+}> => {
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) throw error;
+    return data;
+};
+
+export const signInWithPassword = async ({ email, password }: { email: string, password: string }): Promise<{
+    user: User | null,
+    session: Session | null,
+    weakPassword?: WeakPassword | null | undefined
+}> => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    return data;
+};
