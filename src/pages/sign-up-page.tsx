@@ -1,14 +1,23 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { useSignUp } from "@/hooks/mutations/use-sign-up.ts";
+import { generateErrorMessage } from "@/lib/error.ts";
 import { useState } from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 export default () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { mutate: signUp } = useSignUp();
+    const { mutate: signUp, isPending: isSignUpPending } = useSignUp({
+        onError: (error) => {
+            const message = generateErrorMessage(error);
+            toast.error(message, {
+                position: "top-center"
+            });
+        }
+    });
 
     const onClickSignUpButton = () => {
         if (email.trim() === "" || password.trim() === "") return;
@@ -23,15 +32,20 @@ export default () => {
                        type={"email"}
                        value={email}
                        onChange={(e) => setEmail(e.target.value)}
+                       disabled={isSignUpPending}
                        placeholder={"example@abc.com"}/>
                 <Input className={"py-6"}
                        type={"password"}
                        value={password}
                        onChange={(e) => setPassword(e.target.value)}
+                       disabled={isSignUpPending}
                        placeholder={"password"}/>
             </div>
             <div>
-                <Button className={"w-full"} onClick={onClickSignUpButton}>회원가입</Button>
+                <Button className={"w-full"}
+                        onClick={onClickSignUpButton}
+                        disabled={isSignUpPending}>회원가입
+                </Button>
             </div>
             <div>
                 <Link to={"/sign-in"} className={"text-muted-foreground hover:underline"}>이미 계정이 있다면? 로그인</Link>

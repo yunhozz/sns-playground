@@ -7,3 +7,10 @@ export interface ITodo {
 }
 
 export type TPost = Database["public"]["Tables"]["post"]["Row"];
+
+export type TMutationCallback = {
+    onSuccess?: () => void;
+    onError?: (error: Error) => void;
+    onMutate?: () => void;
+    onSettled?: () => void;
+}

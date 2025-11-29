@@ -4,10 +4,12 @@ import { Input } from "@/components/ui/input.tsx";
 import { useSignInWithOAuth } from "@/hooks/mutations/use-sign-in-with-oauth.ts";
 import { useSignInWithPassword } from "@/hooks/mutations/use-sign-in-with-password.ts";
 import { OAUTH_PROVIDERS } from "@/lib/constants.ts";
+import { generateErrorMessage } from "@/lib/error.ts";
 import type { Provider } from "@supabase/supabase-js";
 import * as React from "react";
 import { useState } from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 const isValidProvider = (providerName: string): providerName is Provider => {
     return (OAUTH_PROVIDERS as readonly string[]).includes(providerName);
@@ -17,8 +19,24 @@ export default () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { mutate: signInWithPassword } = useSignInWithPassword();
-    const { mutate: signInWithOAuth } = useSignInWithOAuth();
+    const { mutate: signInWithPassword, isPending: isSignInWithPasswordPending } = useSignInWithPassword({
+        onError: (error) => {
+            const message = generateErrorMessage(error);
+            toast.error(message, {
+                position: "top-center"
+            });
+            setPassword("");
+        }
+    });
+
+    const { mutate: signInWithOAuth, isPending: isSignInWithOAuthPending } = useSignInWithOAuth({
+        onError: (error) => {
+            const message = generateErrorMessage(error);
+            toast.error(message, {
+                position: "top-center"
+            });
+        }
+    });
 
     const onClickSignInButton = () => {
         if (email.trim() === "" || password.trim() === "") return;
@@ -42,11 +60,13 @@ export default () => {
                        type={"email"}
                        value={email}
                        onChange={(e) => setEmail(e.target.value)}
+                       disabled={isSignInWithPasswordPending}
                        placeholder={"example@abc.com"}/>
                 <Input className={"py-6"}
                        type={"password"}
                        value={password}
                        onChange={(e) => setPassword(e.target.value)}
+                       disabled={isSignInWithPasswordPending}
                        placeholder={"password"}/>
             </div>
             <div className={"flex flex-col gap-2"}>
@@ -54,9 +74,9 @@ export default () => {
                 <Button className={"w-full"}
                         variant={"outline"}
                         name={"github"}
-                        onClick={(e) => onClickSocialLoginButton(e)}>
-                    <img src={gitHubLogo} className={"w-4 h-4"}/>
-                    Github 계정으로 로그인
+                        onClick={(e) => onClickSocialLoginButton(e)}
+                        disabled={isSignInWithOAuthPending}>
+                    <img src={gitHubLogo} className={"w-4 h-4"}/>Github 계정으로 로그인
                 </Button>
             </div>
             <div>
