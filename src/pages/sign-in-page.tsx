@@ -1,19 +1,24 @@
 import gitHubLogo from "@/assets/github-mark.svg";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useSignInWithOauth } from "@/hooks/mutations/use-sign-in-with-oauth.ts";
+import { useSignInWithOAuth } from "@/hooks/mutations/use-sign-in-with-oauth.ts";
 import { useSignInWithPassword } from "@/hooks/mutations/use-sign-in-with-password.ts";
+import { OAUTH_PROVIDERS } from "@/lib/constants.ts";
 import type { Provider } from "@supabase/supabase-js";
 import * as React from "react";
 import { useState } from "react";
 import { Link } from "react-router";
+
+const isValidProvider = (providerName: string): providerName is Provider => {
+    return (OAUTH_PROVIDERS as readonly string[]).includes(providerName);
+};
 
 export default () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const { mutate: signInWithPassword } = useSignInWithPassword();
-    const { mutate: signInWithOAuth } = useSignInWithOauth();
+    const { mutate: signInWithOAuth } = useSignInWithOAuth();
 
     const onClickSignInButton = () => {
         if (email.trim() === "" || password.trim() === "") return;
@@ -21,7 +26,12 @@ export default () => {
     };
 
     const onClickSocialLoginButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-        signInWithOAuth(e.currentTarget.name as Provider);
+        const providerName = e.currentTarget.name;
+        if (isValidProvider(providerName)) {
+            signInWithOAuth(providerName);
+        } else {
+            throw new Error(`ERROR: Unknown social login provider: ${providerName}`);
+        }
     };
 
     return (

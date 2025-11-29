@@ -8,3 +8,10 @@ export const QUERY_KEYS = {
         detail: (id: string) => ["todo", "detail", id]
     }
 };
+
+export const OAUTH_PROVIDERS = [
+    "google",
+    "kakao",
+    "naver",
+    "github"
+] as const;

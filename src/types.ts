@@ -6,4 +6,4 @@ export interface ITodo {
     isDone: boolean;
 }
 
-export type PostEntity = Database["public"]["Tables"]["post"]["Row"];
+export type TPost = Database["public"]["Tables"]["post"]["Row"];
