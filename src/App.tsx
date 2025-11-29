@@ -1,10 +1,11 @@
 import "./App.css";
+import SessionProvider from "@/provider/session-provider.tsx";
 import RootRoute from "@/root-route.tsx";
 
-function App() {
+export default function App() {
     return (
-        <RootRoute/>
+        <SessionProvider>
+            <RootRoute/>
+        </SessionProvider>
     );
 }
-
-export default App;
