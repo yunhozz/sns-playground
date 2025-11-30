@@ -6,6 +6,11 @@ export const QUERY_KEYS = {
         all: ["todo"],
         list: ["todo", "list"],
         detail: (id: string) => ["todo", "detail", id]
+    },
+    profile: {
+        all: ["profile"],
+        list: ["profile", "list"],
+        byId: (userId: string) => ["profile", "byId", userId]
     }
 };
 

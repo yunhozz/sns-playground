@@ -6,7 +6,9 @@ export interface ITodo {
     isDone: boolean;
 }
 
-export type TPost = Database["public"]["Tables"]["post"]["Row"];
+export type TPostEntity = Database["public"]["Tables"]["post"]["Row"];
+
+export type TProfileEntity = Database["public"]["Tables"]["profile"]["Row"];
 
 export type TMutationCallback = {
     onSuccess?: () => void;
