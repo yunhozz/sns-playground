@@ -1,8 +1,10 @@
 import GlobalLayout from "@/components/layout/global-layout.tsx";
+import GuestOnlyLayout from "@/components/layout/guest-only-layout.tsx";
+import MemberOnlyLayout from "@/components/layout/member-only-layout.tsx";
 import ForgetPasswordPage from "@/pages/forget-password-page.tsx";
 import IndexPage from "@/pages/index-page.tsx";
-import ProfileDetailPage from "@/pages/profile-detail.page.tsx";
-import PostDetailPage from "@/pages/profile-detail.page.tsx";
+import ProfileDetailPage from "@/pages/profile-detail-page.tsx";
+import PostDetailPage from "@/pages/profile-detail-page.tsx";
 import ResetPasswordPage from "@/pages/reset-password-page.tsx";
 import SignInPage from "@/pages/sign-in-page.tsx";
 import SignUpPage from "@/pages/sign-up-page.tsx";
@@ -12,13 +14,17 @@ export default () => {
     return (
         <Routes>
             <Route element={<GlobalLayout/>}>
-                <Route path={"/"} element={<IndexPage/>}/>
-                <Route path={"/sign-in"} element={<SignInPage/>}/>
-                <Route path={"/sign-up"} element={<SignUpPage/>}/>
-                <Route path={"/forget-password"} element={<ForgetPasswordPage/>}/>
-                <Route path={"/post/:postId"} element={<PostDetailPage/>}/>
-                <Route path={"/profile/:userId"} element={<ProfileDetailPage/>}/>
-                <Route path={"/reset-password"} element={<ResetPasswordPage/>}/>
+                <Route element={<GuestOnlyLayout/>}>
+                    <Route path={"/sign-in"} element={<SignInPage/>}/>
+                    <Route path={"/sign-up"} element={<SignUpPage/>}/>
+                    <Route path={"/forget-password"} element={<ForgetPasswordPage/>}/>
+                </Route>
+                <Route element={<MemberOnlyLayout/>}>
+                    <Route path={"/"} element={<IndexPage/>}/>
+                    <Route path={"/post/:postId"} element={<PostDetailPage/>}/>
+                    <Route path={"/profile/:userId"} element={<ProfileDetailPage/>}/>
+                    <Route path={"/reset-password"} element={<ResetPasswordPage/>}/>
+                </Route>
                 <Route path={"*"} element={<Navigate to={"/"}/>}/>
             </Route>
         </Routes>
