@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useUpdatePassword } from "@/hooks/mutations/use-update-password.ts";
+import { useUpdatePassword } from "@/hooks/mutations/auth/use-update-password.ts";
 import { generateErrorMessage } from "@/lib/error.ts";
 import { useState } from "react";
 import { useNavigate } from "react-router";

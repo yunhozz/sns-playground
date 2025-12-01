@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useSignUp } from "@/hooks/mutations/use-sign-up.ts";
+import { useSignUp } from "@/hooks/mutations/auth/use-sign-up.ts";
 import { generateErrorMessage } from "@/lib/error.ts";
 import { useState } from "react";
 import { Link } from "react-router";

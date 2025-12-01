@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button.tsx";
-import { useDeleteTodoMutation } from "@/hooks/mutations/use-delete-todo-mutation.ts";
-import { useUpdateTodoMutation } from "@/hooks/mutations/use-update-todo-mutation.ts";
+import { useDeleteTodoMutation } from "@/hooks/mutations/todo/use-delete-todo-mutation.ts";
+import { useUpdateTodoMutation } from "@/hooks/mutations/todo/use-update-todo-mutation.ts";
 import { useTodoDataById } from "@/hooks/queries/use-todo-data-by-id.ts";
 import { Link } from "react-router";
 

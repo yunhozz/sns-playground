@@ -1,8 +1,8 @@
 import gitHubLogo from "@/assets/github-mark.svg";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useSignInWithOAuth } from "@/hooks/mutations/use-sign-in-with-oauth.ts";
-import { useSignInWithPassword } from "@/hooks/mutations/use-sign-in-with-password.ts";
+import { useSignInWithOAuth } from "@/hooks/mutations/auth/use-sign-in-with-oauth.ts";
+import { useSignInWithPassword } from "@/hooks/mutations/auth/use-sign-in-with-password.ts";
 import { OAUTH_PROVIDERS } from "@/lib/constants.ts";
 import { generateErrorMessage } from "@/lib/error.ts";
 import type { Provider } from "@supabase/supabase-js";

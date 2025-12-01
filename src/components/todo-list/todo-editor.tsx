@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useCreateTodoMutation } from "@/hooks/mutations/use-create-todo-mutation.ts";
+import { useCreateTodoMutation } from "@/hooks/mutations/todo/use-create-todo-mutation.ts";
 import { useState } from "react";
 
 export default () => {
