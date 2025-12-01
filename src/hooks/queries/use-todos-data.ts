@@ -1,4 +1,4 @@
-import { fetchTodos } from "@/api/fetch-todos.ts";
+import { fetchTodos } from "@/api/todo.ts";
 import { QUERY_KEYS } from "@/lib/constants.ts";
 import type { ITodo } from "@/types.ts";
 import { useQuery, useQueryClient } from "@tanstack/react-query";

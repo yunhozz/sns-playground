@@ -1,4 +1,4 @@
-import { fetchTodoById } from "@/api/fetch-todo-by-id.ts";
+import { fetchTodoById } from "@/api/todo.ts";
 import { QUERY_KEYS } from "@/lib/constants.ts";
 import { useQuery } from "@tanstack/react-query";
 

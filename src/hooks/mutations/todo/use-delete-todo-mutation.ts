@@ -1,4 +1,4 @@
-import { deleteTodo } from "@/api/delete-todo.ts";
+import { deleteTodo } from "@/api/todo.ts";
 import { QUERY_KEYS } from "@/lib/constants.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

@@ -1,4 +1,4 @@
-import { createTodo } from "@/api/create-todo.ts";
+import { createTodo } from "@/api/todo.ts";
 import { QUERY_KEYS } from "@/lib/constants.ts";
 import type { ITodo } from "@/types.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
