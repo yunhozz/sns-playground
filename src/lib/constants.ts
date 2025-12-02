@@ -20,3 +20,5 @@ export const OAUTH_PROVIDERS = [
     "naver",
     "github"
 ] as const;
+
+export const BUCKET_NAME = "uploads";
