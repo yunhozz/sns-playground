@@ -38,6 +38,25 @@ export default () => {
         }
     });
 
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = "auto";
+            textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+        }
+    }, [content]);
+
+    useEffect(() => {
+        if (!isOpen) {
+            images.forEach(image => {
+                URL.revokeObjectURL(image.previewUrl);
+            });
+            return;
+        }
+        textareaRef.current?.focus();
+        setContent("");
+        setImages([]);
+    }, [isOpen]);
+
     const onOpenChangeDialog = () => {
         if (content !== "" || images.length > 0) {
             openAlertModal({
@@ -62,12 +81,13 @@ export default () => {
                 ]);
             });
         }
-
         e.target.value = "";
     };
 
     const onClickDeleteImage = (image: TImage) => {
-        setImages(prevImages => prevImages.filter(pi => pi.previewUrl !== image.previewUrl));
+        const previewUrl = image.previewUrl;
+        setImages(prevImages => prevImages.filter(pi => pi.previewUrl !== previewUrl));
+        URL.revokeObjectURL(previewUrl);
     };
 
     const onClickAddFileButton = () => {
@@ -82,20 +102,6 @@ export default () => {
             userId: session!.user.id
         });
     };
-
-    useEffect(() => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = "auto";
-            textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
-        }
-    }, [content]);
-
-    useEffect(() => {
-        if (!isOpen) return;
-        textareaRef.current?.focus();
-        setContent("");
-        setImages([]);
-    }, [isOpen]);
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChangeDialog}>
