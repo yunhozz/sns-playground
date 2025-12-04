@@ -2,10 +2,11 @@ import { uploadImage } from "@/api/image.ts";
 import supabase from "@/lib/supabase.ts";
 import type { TPostEntity } from "@/types.ts";
 
-export const fetchPosts = async () => {
+export const fetchPosts = async ({ from, to }: { from: number, to: number }) => {
     const { data, error } = await supabase.from("post")
         .select("*, author: profile!author_id (*)")
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .range(from, to);
 
     if (error) throw error;
     return data;

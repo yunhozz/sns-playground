@@ -1,10 +1,19 @@
 import Fallback from "@/components/fallback.tsx";
 import Loader from "@/components/loader.tsx";
 import PostItem from "@/components/post/post-item.tsx";
-import { usePostsData } from "@/hooks/queries/use-posts-data.ts";
+import { useInfinitePostsData } from "@/hooks/queries/use-infinite-posts-data.ts";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default () => {
-    const { data: posts, error, isPending } = usePostsData();
+    const { data, error, isPending, fetchNextPage, isFetchingNextPage } = useInfinitePostsData();
+    const { ref, inView } = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            fetchNextPage();
+        }
+    }, [inView]);
 
     if (error) return <Fallback/>;
     if (isPending) return <Loader/>;
@@ -12,8 +21,12 @@ export default () => {
     return (
         <div className={"flex flex-col gap-10"}>
             {
-                posts.map(post => <PostItem key={post.id} {...post}/>)
+                data?.pages.map(page =>
+                    page?.map(post => <PostItem key={post.id} {...post}/>)
+                )
             }
+            {isFetchingNextPage && <Loader/>}
+            <div ref={ref}></div>
         </div>
     );
 }
