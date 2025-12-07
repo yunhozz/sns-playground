@@ -147,7 +147,7 @@ export default () => {
                        onChange={onChangeFileInput}
                        ref={fileInputRef}
                        multiple/>
-                {postEditorModal.isOpen && postEditorModal.type == "EDIT" && (
+                {postEditorModal.isOpen && postEditorModal.type === "EDIT" && (
                     <Carousel>
                         <CarouselContent>
                             {postEditorModal.imageUrls?.map(url => (

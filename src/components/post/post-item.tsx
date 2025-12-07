@@ -1,6 +1,6 @@
 import defaultAvatar from "@/assets/default-avatar.jpg";
-import EditPostItemButton from "@/components/post/edit-post-item-button.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import DeletePostButton from "@/components/post/delete-post-button.tsx";
+import EditPostButton from "@/components/post/edit-post-button.tsx";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import { formatTimeAgo } from "@/lib/utils.ts";
 import type { TPost } from "@/types.ts";
@@ -24,10 +24,8 @@ export default (post: TPost) => {
                     </div>
                 </div>
                 <div className={"text-muted-foreground flex text-sm"}>
-                    <EditPostItemButton {...post}/>
-                    <Button className={"cursor-pointer"} variant={"ghost"}>
-                        삭제
-                    </Button>
+                    <EditPostButton {...post}/>
+                    <DeletePostButton id={post.id}/>
                 </div>
             </div>
             <div className={"flex cursor-pointer flex-col gap-5"}>
