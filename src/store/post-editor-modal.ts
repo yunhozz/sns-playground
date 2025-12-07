@@ -1,16 +1,40 @@
 import { combine, devtools } from "zustand/middleware";
 import { create } from "zustand/react";
 
-const initialStore: { isOpen: boolean } = {
-    isOpen: false
-};
+type TCreateMode = {
+    isOpen: true;
+    type: "CREATE";
+}
 
-const usePostEditorModalStore = create(
+type TEditMode = {
+    isOpen: true;
+    type: "EDIT";
+    postId: number;
+    content: string;
+    imageUrls: string[] | null;
+}
+
+type TOpenState = TCreateMode | TEditMode;
+
+type TCloseState = {
+    isOpen: false;
+}
+
+type TState = TOpenState | TCloseState;
+
+const initialState = {
+    isOpen: false
+} as TState;
+
+const usePostEditorModalState = create(
     devtools(
-        combine(initialStore, (setState, getState, store) => ({
+        combine(initialState, (setState, getState, store) => ({
             actions: {
-                open: () => {
-                    setState({ isOpen: true });
+                openCreate: () => {
+                    setState({ isOpen: true, type: "CREATE" });
+                },
+                openEdit: (param: Omit<TEditMode, "isOpen" | "type">) => {
+                    setState({ isOpen: true, type: "EDIT", ...param });
                 },
                 close: () => {
                     setState({ isOpen: false });
@@ -18,14 +42,16 @@ const usePostEditorModalStore = create(
             }
         })),
         {
-            name: "postEditorModelStore"
+            name: "postEditorModelState"
         }
     )
 );
 
-export const useOpenPostEditorModal = () => usePostEditorModalStore(state => state.actions.open);
+export const useOpenCreatePostModal = () => usePostEditorModalState(state => state.actions.openCreate);
+
+export const useOpenEditPostModal = () => usePostEditorModalState(state => state.actions.openEdit);
 
 export const usePostEditorModal = () => {
-    const { isOpen, actions: { open, close } } = usePostEditorModalStore();
-    return { isOpen, open, close };
+    const state = usePostEditorModalState();
+    return state as typeof state & TState;
 };
