@@ -20,11 +20,9 @@ export default () => {
 
     return (
         <div className={"flex flex-col gap-10"}>
-            {
-                data?.pages.map(page =>
-                    page?.map(post => <PostItem key={post.id} {...post}/>)
-                )
-            }
+            {data?.pages.map(page =>
+                page?.map(post => <PostItem key={post.id} {...post}/>)
+            )}
             {isFetchingNextPage && <Loader/>}
             <div ref={ref}></div>
         </div>
