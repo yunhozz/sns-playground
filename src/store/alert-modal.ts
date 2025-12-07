@@ -15,13 +15,13 @@ type TCloseState = {
 
 type TState = TOpenState | TCloseState;
 
-const initialStore = {
+const initialState = {
     isOpen: false
 } as TState;
 
-const useAlertModalStore = create(
+const useAlertModalState = create(
     devtools(
-        combine(initialStore, (setState, getState, store) => ({
+        combine(initialState, (setState, getState, store) => ({
             actions: {
                 open: (params: Omit<TOpenState, "isOpen">) => {
                     setState({ ...params, isOpen: true });
@@ -32,14 +32,14 @@ const useAlertModalStore = create(
             }
         })),
         {
-            name: "alertModalStore"
+            name: "alertModalState"
         }
     )
 );
 
 export const useAlertModal = () => {
-    const store = useAlertModalStore();
+    const store = useAlertModalState();
     return store as typeof store & TState;
 };
 
-export const useOpenAlertModal = () => useAlertModalStore(state => state.actions.open);
+export const useOpenAlertModal = () => useAlertModalState(state => state.actions.open);

@@ -7,7 +7,7 @@ const initialState: { todos: ITodo[] } = {
     todos: []
 };
 
-const useTodosStore = create(
+const useTodosState = create(
     immer(
         combine(initialState, (setState) => ({
             actions: {
@@ -31,13 +31,13 @@ const useTodosStore = create(
 );
 
 export const useTodos = () => {
-    return useTodosStore(store => store.todos);
+    return useTodosState(store => store.todos);
 };
 
 export const useCreateTodo = () => {
-    return useTodosStore(store => store.actions.createTodo);
+    return useTodosState(store => store.actions.createTodo);
 };
 
 export const useDeleteTodo = () => {
-    return useTodosStore(store => store.actions.deleteTodo);
+    return useTodosState(store => store.actions.deleteTodo);
 };

@@ -12,7 +12,7 @@ const initialState = {
     session: null
 } as TState;
 
-const useSessionStore = create(
+const useSessionState = create(
     devtools(
         combine(initialState, (setState, getState, store) => ({
             actions: {
@@ -22,13 +22,13 @@ const useSessionStore = create(
             }
         })),
         {
-            name: "sessionStore"
+            name: "sessionState"
         }
     )
 );
 
-export const useSession = () => useSessionStore(state => state.session);
+export const useSession = () => useSessionState(state => state.session);
 
-export const useIsSessionLoaded = () => useSessionStore(state => state.isLoaded);
+export const useIsSessionLoaded = () => useSessionState(state => state.isLoaded);
 
-export const useSetSession = () => useSessionStore(state => state.actions.setSession);
+export const useSetSession = () => useSessionState(state => state.actions.setSession);
