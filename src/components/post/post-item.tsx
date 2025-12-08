@@ -3,10 +3,15 @@ import DeletePostButton from "@/components/post/delete-post-button.tsx";
 import EditPostButton from "@/components/post/edit-post-button.tsx";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import { formatTimeAgo } from "@/lib/utils.ts";
+import { useSession } from "@/store/session.ts";
 import type { TPost } from "@/types.ts";
 import { HeartIcon, MessageCircle } from "lucide-react";
 
 export default (post: TPost) => {
+    const session = useSession();
+    const userId = session?.user.id;
+    const isMine = post.author_id === userId;
+
     return (
         <div className={"flex flex-col gap-4 border-b pb-8"}>
             <div className={"flex justify-between"}>
@@ -24,12 +29,16 @@ export default (post: TPost) => {
                     </div>
                 </div>
                 <div className={"text-muted-foreground flex text-sm"}>
-                    <EditPostButton {...post}/>
-                    <DeletePostButton id={post.id}/>
+                    {isMine && (
+                        <>
+                            <EditPostButton {...post}/>
+                            <DeletePostButton id={post.id}/>
+                        </>
+                    )}
                 </div>
             </div>
             <div className={"flex cursor-pointer flex-col gap-5"}>
-                <div className={"line-clamp-2 break-words whitespace-pre-wrap"}>
+                <div className={"line-clamp-2 wrap-break-word whitespace-pre-wrap"}>
                     {post.content}
                 </div>
                 <Carousel>
