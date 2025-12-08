@@ -1,14 +1,21 @@
 import defaultAvatar from "@/assets/default-avatar.jpg";
+import Fallback from "@/components/fallback.tsx";
+import Loader from "@/components/loader.tsx";
 import DeletePostButton from "@/components/post/delete-post-button.tsx";
 import EditPostButton from "@/components/post/edit-post-button.tsx";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
+import { usePostByIdData } from "@/hooks/queries/use-post-by-id-data.ts";
 import { formatTimeAgo } from "@/lib/utils.ts";
 import { useSession } from "@/state/session-state.ts";
-import type { TPost } from "@/types.ts";
 import { HeartIcon, MessageCircle } from "lucide-react";
 
-export default (post: TPost) => {
+export default ({ postId }: { postId: number }) => {
     const session = useSession();
+    const { data: post, isPending, error } = usePostByIdData({ postId, type: "FEED" });
+
+    if (isPending) return <Loader/>;
+    if (error) return <Fallback/>;
+
     const userId = session?.user.id;
     const isMine = post.author_id === userId;
 
