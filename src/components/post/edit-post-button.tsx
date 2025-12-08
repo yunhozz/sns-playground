@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button.tsx";
-import { useOpenEditPostModal } from "@/store/post-editor-modal.ts";
+import { useOpenEditPostModal } from "@/state/post-editor-modal-state.ts";
 import type { TPostEntity } from "@/types.ts";
 
 export default (props: TPostEntity) => {

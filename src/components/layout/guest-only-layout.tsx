@@ -1,4 +1,4 @@
-import { useSession } from "@/store/session.ts";
+import { useSession } from "@/state/session-state.ts";
 import { Navigate, Outlet } from "react-router";
 
 export default () => {

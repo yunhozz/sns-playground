@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button.tsx";
 import { useDeletePost } from "@/hooks/mutations/post/use-delete-post.ts";
-import { useOpenAlertModal } from "@/store/alert-modal.ts";
+import { useOpenAlertModal } from "@/state/alert-modal-state.ts";
 import { toast } from "sonner";
 
 export default ({ id }: { id: number }) => {

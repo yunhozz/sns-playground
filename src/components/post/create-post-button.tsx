@@ -1,4 +1,4 @@
-import { useOpenCreatePostModal } from "@/store/post-editor-modal.ts";
+import { useOpenCreatePostModal } from "@/state/post-editor-modal-state.ts";
 import { PlusCircleIcon } from "lucide-react";
 
 export default () => {

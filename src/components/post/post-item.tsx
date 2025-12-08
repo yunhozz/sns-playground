@@ -3,7 +3,7 @@ import DeletePostButton from "@/components/post/delete-post-button.tsx";
 import EditPostButton from "@/components/post/edit-post-button.tsx";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import { formatTimeAgo } from "@/lib/utils.ts";
-import { useSession } from "@/store/session.ts";
+import { useSession } from "@/state/session-state.ts";
 import type { TPost } from "@/types.ts";
 import { HeartIcon, MessageCircle } from "lucide-react";
 

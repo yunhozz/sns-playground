@@ -8,7 +8,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog.tsx";
-import { useAlertModal } from "@/store/alert-modal.ts";
+import { useAlertModal } from "@/state/alert-modal-state.ts";
 
 export default () => {
     const alertModal = useAlertModal();
