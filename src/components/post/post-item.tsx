@@ -3,11 +3,12 @@ import Fallback from "@/components/fallback.tsx";
 import Loader from "@/components/loader.tsx";
 import DeletePostButton from "@/components/post/delete-post-button.tsx";
 import EditPostButton from "@/components/post/edit-post-button.tsx";
+import LikePostButton from "@/components/post/like-post-button.tsx";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import { usePostByIdData } from "@/hooks/queries/use-post-by-id-data.ts";
 import { formatTimeAgo } from "@/lib/utils.ts";
 import { useSession } from "@/state/session-state.ts";
-import { HeartIcon, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 export default ({ postId }: { postId: number }) => {
     const session = useSession();
@@ -61,11 +62,7 @@ export default ({ postId }: { postId: number }) => {
                 </Carousel>
             </div>
             <div className={"flex gap-2"}>
-                <div
-                    className={"hover:bg-muted flex cursor-pointer items-center gap-2 rounded-xl border-1 p-2 px-4 text-sm"}>
-                    <HeartIcon className={"h-4 w-4"}/>
-                    <span>0</span>
-                </div>
+                <LikePostButton id={post.id} likeCount={post.like_count}/>
                 <div
                     className={"hover:bg-muted flex cursor-pointer items-center gap-2 rounded-xl border-1 p-2 px-4 text-sm"}>
                     <MessageCircle className={"h-4 w-4"}/>

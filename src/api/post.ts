@@ -81,3 +81,13 @@ export const createPostWithImages = async ({ content, images, userId }: {
         throw error;
     }
 };
+
+export const togglePostLike = async ({ postId, userId }: { postId: number, userId: string }) => {
+    const { data, error } = await supabase.rpc("toggle_post_like", {
+        p_post_id: postId,
+        p_user_id: userId
+    });
+
+    if (error) throw error;
+    return data;
+};
