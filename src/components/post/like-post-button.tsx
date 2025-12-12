@@ -3,7 +3,7 @@ import { useSession } from "@/state/session-state.ts";
 import { HeartIcon } from "lucide-react";
 import { toast } from "sonner";
 
-export default ({ id, likeCount }: { id: number, likeCount: number }) => {
+export default ({ id, likeCount, isLiked }: { id: number, likeCount: number, isLiked: boolean }) => {
     const session = useSession();
     const { mutate: togglePostLike } = useTogglePostLike({
         onError: (error) => {
@@ -23,7 +23,7 @@ export default ({ id, likeCount }: { id: number, likeCount: number }) => {
     return (
         <div className={"hover:bg-muted flex cursor-pointer items-center gap-2 rounded-xl border-1 p-2 px-4 text-sm"}
              onClick={onClickLikeButton}>
-            <HeartIcon className={"h-4 w-4"}/>
+            <HeartIcon className={`h-4 w-4 ${isLiked && "fill-foreground border-foreground"}`}/>
             <span>{likeCount}</span>
         </div>
     );

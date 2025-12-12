@@ -62,7 +62,7 @@ export default ({ postId }: { postId: number }) => {
                 </Carousel>
             </div>
             <div className={"flex gap-2"}>
-                <LikePostButton id={post.id} likeCount={post.like_count}/>
+                <LikePostButton id={post.id} likeCount={post.like_count} isLiked={post.isLiked}/>
                 <div
                     className={"hover:bg-muted flex cursor-pointer items-center gap-2 rounded-xl border-1 p-2 px-4 text-sm"}>
                     <MessageCircle className={"h-4 w-4"}/>

@@ -2,24 +2,34 @@ import { uploadImage } from "@/api/image.ts";
 import supabase from "@/lib/supabase.ts";
 import type { TPostEntity } from "@/types.ts";
 
-export const fetchPosts = async ({ from, to }: { from: number, to: number }) => {
+export const fetchPosts = async ({ from, to, userId }: { from: number, to: number, userId: string }) => {
     const { data, error } = await supabase.from("post")
-        .select("*, author: profile!author_id (*)")
+        .select("*, author: profile!author_id (*), myLiked: like!post_id (*)")
+        .eq("like.user_id", userId)
         .order("created_at", { ascending: false })
         .range(from, to);
 
     if (error) throw error;
-    return data;
+
+    return data?.map(post => ({
+        ...post,
+        isLiked: post.myLiked && post.myLiked.length > 0
+    }));
 };
 
-export const fetchPostById = async (postId: number) => {
+export const fetchPostById = async ({ postId, userId }: { postId: number, userId: string }) => {
     const { data, error } = await supabase.from("post")
-        .select("*, author: profile!author_id (*)")
+        .select("*, author: profile!author_id (*), myLiked: like!post_id (*)")
+        .eq("like.user_id", userId)
         .eq("id", postId)
         .single();
 
     if (error) throw error;
-    return data;
+
+    return {
+        ...data,
+        isLiked: data.myLiked && data.myLiked.length > 0
+    };
 };
 
 export const createPost = async (content: string) => {
