@@ -33,7 +33,15 @@ export type Database = {
                     post_id?: number
                     user_id?: string
                 }
-                Relationships: []
+                Relationships: [
+                    {
+                        foreignKeyName: "like_post_id_fkey"
+                        columns: ["post_id"]
+                        isOneToOne: false
+                        referencedRelation: "post"
+                        referencedColumns: ["id"]
+                    },
+                ]
             }
             post: {
                 Row: {
