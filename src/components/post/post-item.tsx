@@ -9,6 +9,7 @@ import { usePostByIdData } from "@/hooks/queries/use-post-by-id-data.ts";
 import { formatTimeAgo } from "@/lib/utils.ts";
 import { useSession } from "@/state/session-state.ts";
 import { MessageCircle } from "lucide-react";
+import { Link } from "react-router";
 
 export default ({ postId }: { postId: number }) => {
     const session = useSession();
@@ -24,9 +25,11 @@ export default ({ postId }: { postId: number }) => {
         <div className={"flex flex-col gap-4 border-b pb-8"}>
             <div className={"flex justify-between"}>
                 <div className={"flex items-start gap-4"}>
-                    <img className={"h-10 w-10"}
-                         src={post.author.avatar_url || defaultAvatar}
-                         alt={`${post.author.nickname}의 프로필 이미지`}/>
+                    <Link to={`profile/${post.author_id}`}>
+                        <img className={"h-10 w-10"}
+                             src={post.author.avatar_url || defaultAvatar}
+                             alt={`${post.author.nickname}의 프로필 이미지`}/>
+                    </Link>
                     <div>
                         <div className={"font-bold hover:underline"}>
                             {post.author.nickname}

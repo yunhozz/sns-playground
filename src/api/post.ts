@@ -2,12 +2,21 @@ import { uploadImage } from "@/api/image.ts";
 import supabase from "@/lib/supabase.ts";
 import type { TPostEntity } from "@/types.ts";
 
-export const fetchPosts = async ({ from, to, userId }: { from: number, to: number, userId: string }) => {
-    const { data, error } = await supabase.from("post")
+export const fetchPosts = async ({ from, to, userId, authorId }: {
+    from: number,
+    to: number,
+    userId: string,
+    authorId?: string
+}) => {
+    const request = supabase.from("post")
         .select("*, author: profile!author_id (*), myLiked: like!post_id (*)")
         .eq("like.user_id", userId)
         .order("created_at", { ascending: false })
         .range(from, to);
+
+    if (authorId) request.eq("author_id", authorId);
+
+    const { data, error } = await request;
 
     if (error) throw error;
 

@@ -5,8 +5,15 @@ import { useInfinitePostsData } from "@/hooks/queries/use-infinite-posts-data.ts
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-export default () => {
-    const { data, error, isPending, fetchNextPage, isFetchingNextPage } = useInfinitePostsData();
+export default ({ authorId }: { authorId?: string }) => {
+    const {
+        data,
+        error,
+        isPending,
+        fetchNextPage,
+        isFetchingNextPage
+    } = useInfinitePostsData(authorId);
+
     const { ref, inView } = useInView();
 
     useEffect(() => {
