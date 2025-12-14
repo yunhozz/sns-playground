@@ -1,5 +1,5 @@
-import defaultAvatar from "@/assets/default-avatar.jpg";
 import logo from "@/assets/logo.png";
+import ProfileButton from "@/components/layout/header/profile-button.tsx";
 import { SunIcon } from "lucide-react";
 import { Link, Outlet } from "react-router";
 
@@ -18,7 +18,7 @@ export default () => {
                         <div className={"hover:bg-muted cursor-pointer rounded-full p-2"}>
                             <SunIcon/>
                         </div>
-                        <img className={"h-6"} src={defaultAvatar}/>
+                        <ProfileButton/>
                     </div>
                 </div>
             </header>

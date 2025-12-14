@@ -38,8 +38,8 @@ const useAlertModalState = create(
 );
 
 export const useAlertModal = () => {
-    const store = useAlertModalState();
-    return store as typeof store & TState;
+    const state = useAlertModalState();
+    return state as typeof state & TState;
 };
 
 export const useOpenAlertModal = () => useAlertModalState(state => state.actions.open);
