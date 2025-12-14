@@ -1,9 +1,13 @@
 import defaultAvatar from "@/assets/default-avatar.jpg";
 import Fallback from "@/components/fallback.tsx";
 import Loader from "@/components/loader.tsx";
+import EditProfileButton from "@/components/profile/edit-profile-button.tsx";
 import { useProfileData } from "@/hooks/queries/use-profile-data.ts";
+import { useSession } from "@/state/session-state.ts";
 
 export default ({ userId }: { userId: string }) => {
+    const session = useSession();
+
     const {
         data: profile,
         error: fetchProfileError,
@@ -20,6 +24,7 @@ export default ({ userId }: { userId: string }) => {
                 <div className={"text-xl font-bold"}>{profile.nickname}</div>
                 <div className={"text-muted-foreground"}>{profile.bio}</div>
             </div>
+            {session?.user.id === userId && <EditProfileButton/>}
         </div>
     );
 }
