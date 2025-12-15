@@ -1,5 +1,16 @@
 import supabase from "@/lib/supabase.ts";
 
+export const fetchComments = async (postId: number) => {
+    const { data, error } = await supabase.from("comment")
+        .select("*, author: profile!author_id (*)")
+        .eq("post_id", postId)
+        .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    return data;
+};
+
 export const createComment = async ({ postId, content }: { postId: number, content: string }) => {
     const { data, error } = await supabase.from("comment")
         .insert({

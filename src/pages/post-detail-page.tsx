@@ -8,13 +8,14 @@ export default () => {
     const postId = params.postId;
 
     if (!postId) return <Navigate to={"/"}/>;
+    const postIdNum = Number(postId);
 
     return (
         <div className={"flex flex-col gap-5"}>
-            <PostItem postId={Number(postId)} type={"DETAIL"}/>
+            <PostItem postId={postIdNum} type={"DETAIL"}/>
             <div className={"text-xl font-bold"}>댓글</div>
-            <CommentEditor postId={Number(postId)}/>
-            <CommentList/>
+            <CommentEditor postId={postIdNum}/>
+            <CommentList postId={postIdNum}/>
         </div>
     );
 }

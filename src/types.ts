@@ -12,7 +12,9 @@ export type TProfileEntity = Database["public"]["Tables"]["profile"]["Row"];
 
 export type TCommentEntity = Database["public"]["Tables"]["comment"]["Row"];
 
-export type TPost = TPostEntity & { author: TProfileEntity, isLiked: boolean };
+export type TPost = TPostEntity & { author: TProfileEntity, isLiked: boolean }
+
+export type TComment = TCommentEntity & { author: TProfileEntity };
 
 export type TMutationCallback = {
     onSuccess?: () => void;
