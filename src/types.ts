@@ -10,6 +10,8 @@ export type TPostEntity = Database["public"]["Tables"]["post"]["Row"];
 
 export type TProfileEntity = Database["public"]["Tables"]["profile"]["Row"];
 
+export type TCommentEntity = Database["public"]["Tables"]["comment"]["Row"];
+
 export type TPost = TPostEntity & { author: TProfileEntity, isLiked: boolean };
 
 export type TMutationCallback = {
