@@ -14,7 +14,7 @@ export default () => {
         <div className={"flex flex-col gap-5"}>
             <PostItem postId={postIdNum} type={"DETAIL"}/>
             <div className={"text-xl font-bold"}>댓글</div>
-            <CommentEditor postId={postIdNum}/>
+            <CommentEditor postId={postIdNum} type={"CREATE"}/>
             <CommentList postId={postIdNum}/>
         </div>
     );

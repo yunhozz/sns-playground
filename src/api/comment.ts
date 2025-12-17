@@ -24,3 +24,15 @@ export const createComment = async ({ postId, content }: { postId: number, conte
 
     return data;
 };
+
+export const updateComment = async ({ id, content }: { id: number, content: string }) => {
+    const { data, error } = await supabase.from("comment")
+        .update({ content })
+        .eq("id", id)
+        .select()
+        .single();
+
+    if (error) throw error;
+
+    return data;
+};
