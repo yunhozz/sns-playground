@@ -8,16 +8,23 @@ import { toast } from "sonner";
 type TCreateMode = {
     type: "CREATE",
     postId: number
-}
+};
 
 type TEditMode = {
     type: "EDIT",
     commentId: number,
     initialContent: string,
     onClose: () => void
-}
+};
 
-type TProps = TCreateMode | TEditMode;
+type TReplyMode = {
+    type: "REPLY",
+    postId: number,
+    parentCommentId: number,
+    onClose: () => void
+};
+
+type TProps = TCreateMode | TEditMode | TReplyMode;
 
 export default (props: TProps) => {
     const [content, setContent] = useState("");
@@ -25,6 +32,7 @@ export default (props: TProps) => {
     const { mutate: createComment, isPending: isCreateCommentPending } = useCreateComment({
         onSuccess: () => {
             setContent("");
+            if (props.type === "REPLY") props.onClose();
         },
         onError: (error) => {
             toast.error("댓글 추가에 실패했습니다", {
@@ -61,16 +69,26 @@ export default (props: TProps) => {
     const onClickSubmitButton = () => {
         if (content.trim() === "") return;
 
-        if (props.type === "CREATE") {
-            createComment({
-                postId: props.postId,
-                content
-            });
-        } else {
-            updateComment({
-                id: props.commentId,
-                content
-            });
+        switch (props.type) {
+            case "CREATE":
+                createComment({
+                    postId: props.postId,
+                    content
+                });
+                break;
+            case "REPLY":
+                createComment({
+                    postId: props.postId,
+                    content,
+                    parentCommentId: props.parentCommentId
+                });
+                break;
+            case "EDIT":
+                updateComment({
+                    id: props.commentId,
+                    content
+                });
+                break;
         }
     };
 
@@ -80,7 +98,7 @@ export default (props: TProps) => {
         <div className={"flex flex-col gap-2"}>
             <Textarea value={content} onChange={onChangeContent} disabled={isPending}/>
             <div className={"flex justify-end gap-2"}>
-                {props.type === "EDIT" &&
+                {props.type === "EDIT" || props.type === "REPLY" &&
                     <Button variant={"outline"}
                             onClick={onClickCancelButton}
                             disabled={isPending}>취소

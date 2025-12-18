@@ -1,18 +1,20 @@
 import defaultAvatar from "@/assets/default-avatar.jpg";
 import CommentEditor from "@/components/comment/comment-editor.tsx";
+import CommentItem from "@/components/comment/comment-item.tsx";
 import { useDeleteComment } from "@/hooks/mutations/comment/use-delete-comment.ts";
 import { formatTimeAgo } from "@/lib/utils.ts";
 import { useOpenAlertModal } from "@/state/alert-modal-state.ts";
 import { useSession } from "@/state/session-state.ts";
-import type { TComment } from "@/types.ts";
+import type { TNestedComment } from "@/types.ts";
 import { useState } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
 
-export default (props: TComment) => {
+export default (props: TNestedComment) => {
     const session = useSession();
 
     const [isEditing, setIsEditing] = useState(false);
+    const [isReply, setIsReply] = useState(false);
 
     const { mutate: deleteComment, isPending: isDeleteCommentPending } = useDeleteComment({
         onError: (error) => {
@@ -28,6 +30,10 @@ export default (props: TComment) => {
         setIsEditing(!isEditing);
     };
 
+    const toggleIsReply = () => {
+        setIsReply(!isReply);
+    };
+
     const onClickDeleteButton = () => {
         openAlertModal({
             title: "댓글 삭제",
@@ -39,9 +45,10 @@ export default (props: TComment) => {
     };
 
     const isMine = session?.user.id === props.author_id;
+    const isRootComment = props.parentComment === undefined;
 
     return (
-        <div className={"flex flex-col gap-8  border-b pb-5"}>
+        <div className={`flex flex-col gap-8 ${isRootComment ? "border-b" : "ml-6"} pb-5`}>
             <div className="flex items-start gap-4">
                 <Link to={"#"}>
                     <div className="flex h-full flex-col">
@@ -59,7 +66,7 @@ export default (props: TComment) => {
                         : <div>{props.content}</div>}
                     <div className="text-muted-foreground flex justify-between text-sm">
                         <div className="flex items-center gap-2">
-                            <div className="cursor-pointer hover:underline">댓글</div>
+                            <div className="cursor-pointer hover:underline" onClick={toggleIsReply}>댓글</div>
                             <div className="bg-border h-[13px] w-[2px]"></div>
                             <div>{formatTimeAgo(props.created_at)}</div>
                         </div>
@@ -79,6 +86,13 @@ export default (props: TComment) => {
                     </div>
                 </div>
             </div>
+            {isReply && (
+                <CommentEditor type={"REPLY"}
+                               postId={props.post_id}
+                               parentCommentId={props.id}
+                               onClose={toggleIsReply}/>
+            )}
+            {props.children.map(comment => <CommentItem key={comment.id} {...comment}/>)}
         </div>
     );
 }
