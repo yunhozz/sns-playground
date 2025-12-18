@@ -8,16 +8,21 @@ const toNestedComments = (comments: TComment[]): TNestedComment[] => {
     const result: TNestedComment[] = [];
     comments.forEach(comment => {
         // 최상위 댓글일 경우
-        if (!comment.parent_comment_id) {
+        if (!comment.root_comment_id) {
             result.push({
                 ...comment,
                 children: []
             });
         } else { // 대댓글일 경우
-            const parentCommentIndex = result.findIndex(item => item.id === comment.parent_comment_id);
-            const parentComment = result[parentCommentIndex];
+            const rootCommentIndex = result.findIndex(item => item.id === comment.root_comment_id);
+            const rootComment = result[rootCommentIndex];
 
-            parentComment.children.push({
+            const parentComment = comments.find(c => c.id === comment.parent_comment_id);
+
+            if (rootCommentIndex === -1) return;
+            if (!parentComment) return;
+
+            rootComment.children.push({
                 ...comment,
                 children: [],
                 parentComment

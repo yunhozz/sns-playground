@@ -46,6 +46,7 @@ export default (props: TNestedComment) => {
 
     const isMine = session?.user.id === props.author_id;
     const isRootComment = props.parentComment === undefined;
+    const isOverTwoLevels = props.parent_comment_id !== props.root_comment_id;
 
     return (
         <div className={`flex flex-col gap-8 ${isRootComment ? "border-b" : "ml-6"} pb-5`}>
@@ -63,7 +64,14 @@ export default (props: TNestedComment) => {
                                        commentId={props.id}
                                        initialContent={props.content}
                                        onClose={toggleIsEditing}/>
-                        : <div>{props.content}</div>}
+                        :
+                        <div>
+                            {isOverTwoLevels &&
+                                <span className={"font-bold text-blue-500"}>
+                                    @{props.parentComment?.author.nickname}&nbsp;
+                                </span>}
+                            {props.content}
+                        </div>}
                     <div className="text-muted-foreground flex justify-between text-sm">
                         <div className="flex items-center gap-2">
                             <div className="cursor-pointer hover:underline" onClick={toggleIsReply}>댓글</div>
@@ -90,6 +98,7 @@ export default (props: TNestedComment) => {
                 <CommentEditor type={"REPLY"}
                                postId={props.post_id}
                                parentCommentId={props.id}
+                               rootCommentId={props.root_comment_id || props.id}
                                onClose={toggleIsReply}/>
             )}
             {props.children.map(comment => <CommentItem key={comment.id} {...comment}/>)}

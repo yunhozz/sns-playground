@@ -21,6 +21,7 @@ type TReplyMode = {
     type: "REPLY",
     postId: number,
     parentCommentId: number,
+    rootCommentId: number,
     onClose: () => void
 };
 
@@ -80,7 +81,8 @@ export default (props: TProps) => {
                 createComment({
                     postId: props.postId,
                     content,
-                    parentCommentId: props.parentCommentId
+                    parentCommentId: props.parentCommentId,
+                    rootCommentId: props.rootCommentId
                 });
                 break;
             case "EDIT":
