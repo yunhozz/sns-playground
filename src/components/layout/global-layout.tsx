@@ -1,6 +1,6 @@
 import logo from "@/assets/logo.png";
 import ProfileButton from "@/components/layout/header/profile-button.tsx";
-import { SunIcon } from "lucide-react";
+import ThemeButton from "@/components/layout/header/theme-button.tsx";
 import { Link, Outlet } from "react-router";
 
 export default () => {
@@ -15,9 +15,7 @@ export default () => {
                         <div className={"font-bold"}>InstaByte</div>
                     </Link>
                     <div className={"flex items-center gap-5"}>
-                        <div className={"hover:bg-muted cursor-pointer rounded-full p-2"}>
-                            <SunIcon/>
-                        </div>
+                        <ThemeButton/>
                         <ProfileButton/>
                     </div>
                 </div>
