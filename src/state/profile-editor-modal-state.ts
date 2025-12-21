@@ -14,7 +14,7 @@ const useProfileEditorModalState = create(
             }
         })),
         {
-            name: "profileEditorModalState"
+            name: "ProfileEditorModalState"
         }
     )
 );

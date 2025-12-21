@@ -32,7 +32,7 @@ const useAlertModalState = create(
             }
         })),
         {
-            name: "alertModalState"
+            name: "AlertModalState"
         }
     )
 );

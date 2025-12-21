@@ -22,7 +22,7 @@ const useSessionState = create(
             }
         })),
         {
-            name: "sessionState"
+            name: "SessionState"
         }
     )
 );
